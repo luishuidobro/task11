@@ -4,7 +4,7 @@
         assets/img/logo@3x.png 3x" class="Logo">
         <div class="User-login-container" *ngIf="isAutenticated">
             <img src="assets/img/ic-user.svg" class="ic_user">
-            <p class="User-login">Welcome: {{userInfo}}</p>
+            <p class="User-login">Welcome: {{userInfo$ | async}}</p>
             <img src="assets/img/ic-exit.svg" class="ic_exit" (click)="Logout()">
             <p class="Log-off" (click)="Logout()">Log off</p>
         </div>

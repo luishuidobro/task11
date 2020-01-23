@@ -13,6 +13,16 @@ import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
 import { LoaderService } from './shared/services/loader.service';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './state';
+import { loginReducer } from './state/reducers/login.reducer'
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+// import { AppEffects } from './app.effects';
+import { LoginEffects } from './state/effects/login.effects';
+import { CourseEffects } from './state/effects/courses.effects';
+import { coursesReducer } from './state/reducers/courses.reducer';
 
 @NgModule({
   declarations: [
@@ -27,7 +37,20 @@ import { LoaderService } from './shared/services/loader.service';
     LoginModule,
     BrowserAnimationsModule,
     AddEditCourseModule,
-    SharedModule
+    SharedModule,
+    StoreModule.forRoot(
+      // reducers,
+      {
+      // metaReducers,
+      login: loginReducer,
+      courses: coursesReducer,
+      // runtimeChecks: {
+      //   strictStateImmutability: true,
+      //   strictActionImmutability: true
+      // }
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([CourseEffects, LoginEffects])
   ],
   providers: [
     LoaderService,

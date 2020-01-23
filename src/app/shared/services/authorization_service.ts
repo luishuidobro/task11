@@ -16,35 +16,38 @@ export class AuthorizacionService {
   //   localStorage.setItem("user", JSON.stringify(user));
   // }
 
-  login(user: User) {
+  login(user: User) : Observable<Object>{
     const loginRequest = {
       "login": user.email,
       "password": user.password
     };
-    this.httpClient.post('http://localhost:3004/auth/login/', loginRequest)
-    .subscribe(
-      (token) => {
-        // this.authorizationService.login(token);
-        localStorage.setItem("user", JSON.stringify(token));
-        localStorage.setItem("userName", JSON.stringify(loginRequest.login));
-        this.isLogged$.next(true);
-          this.httpClient.post('http://localhost:3004/auth/userinfo',token)
-          .subscribe((user) =>{
-            console.log("Authorized");
-            if (this.isAuthenticated()) {
-              this.router.navigate(['courses']);
-            }
-          },
-          (err) => {console.log(err)});
-      },
-      (error) => {
-        console.log(error);
-      });
+   return this.httpClient.post('http://localhost:3004/auth/login/', loginRequest)
+    // .subscribe(
+    //   (token) => {
+    //     // this.authorizationService.login(token);
+    //     localStorage.setItem("user", JSON.stringify(token));
+    //     localStorage.setItem("userName", JSON.stringify(loginRequest.login));
+    //     this.isLogged$.next(true);
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   });
   }
 
   logOut() {
     localStorage.removeItem("user");
     this.isLogged$.next(false);
+  }
+
+  requestUserInfo(token: Object) : Observable<Object> {
+    return this.httpClient.post('http://localhost:3004/auth/userinfo',token);
+    // .subscribe((user) =>{
+    //   console.log("Authorized");
+    //   if (this.isAuthenticated()) {
+    //     this.router.navigate(['courses']);
+    //   }
+    // },
+    // (err) => {console.log(err)});
   }
 
   isAuthenticated(): boolean {
@@ -53,9 +56,9 @@ export class AuthorizacionService {
 
   getUserInfo(): any {
     const userInfoObservable = new Observable(observer => {
-      setTimeout(() => {
+      // setTimeout(() => {
         observer.next(JSON.parse(localStorage.getItem("userName")));
-      }, 500);
+      // }, 500);
     });
     return userInfoObservable;
   }

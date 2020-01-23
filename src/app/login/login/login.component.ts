@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthorizacionService } from "../../shared/services/authorization_service"
 import { User } from '../../shared/models/user-model';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { login } from '../../state/actions/login.actions';
 
 
 @Component({
@@ -11,9 +14,13 @@ import { User } from '../../shared/models/user-model';
 export class LoginComponent implements OnInit {
   public email = "";
   public password = "";
+  login$: Observable<Object>;
 
   constructor(
-    private authorizationService: AuthorizacionService) { }
+    private store: Store<{login: Object}>,
+    private authorizationService: AuthorizacionService) {
+      this.login$ = store.pipe(select('login'));
+    }
 
   ngOnInit() {
   }
@@ -24,5 +31,6 @@ export class LoginComponent implements OnInit {
       password: this.password
     } as User;
     this.authorizationService.login(user);
+    this.store.dispatch(login({user}));
   }
 }

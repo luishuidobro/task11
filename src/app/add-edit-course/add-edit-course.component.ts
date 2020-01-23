@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Course } from '../shared/models/course-model';
 import { CourseService } from '../shared/services/course.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { createCourse, updateCourse } from '../state/actions/courses.actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-course',
@@ -18,10 +21,16 @@ export class AddEditCourseComponent implements OnInit {
 
   isEdition = false;
   currentId = 0;
+  course$: Observable<Object>;
 
-  constructor(private courseService: CourseService,
+  constructor(
+    private store: Store<{courses: Object}>,
+    private courseService: CourseService,
     private route: ActivatedRoute, 
-    private readonly router: Router) { }
+    private readonly router: Router) { 
+      this.course$ = this.store.pipe(select('courses'));
+    // this.course$.subscribe(console.log);
+    }
 
   ngOnInit() {
     this.currentId = parseInt(this.route.snapshot.paramMap.get('id'));
@@ -38,7 +47,7 @@ export class AddEditCourseComponent implements OnInit {
   }
 
   AddNewCourse() {
-    const newCourse = {
+    const course = {
       id: this.currentId > 0 ? this.currentId : 0,
       name: this.name,
       date: this.date,
@@ -55,9 +64,11 @@ export class AddEditCourseComponent implements OnInit {
     } as Course;
     if(this.isEdition) {
       // newCourse.id = this.currentId;
-      this.courseService.updateCourse(newCourse);
+      this.courseService.updateCourse(course);
+      this.store.dispatch(updateCourse({course}));
     } else {
-      this.courseService.createCourse(newCourse);
+      this.courseService.createCourse(course);
+      this.store.dispatch(createCourse({course}));
     }
     this.clearFields();
     this.router.navigate(['courses']);

@@ -3,6 +3,8 @@ import { Course } from '../../shared/models/course-model';
 import { CourseService } from '../../shared/services/course.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Store, select } from '@ngrx/store';
+import { loadCourses, removeCourse } from '../../state/actions/courses.actions';
 import { AuthorizacionService } from "../../shared/services/authorization_service"
 import { Observable } from 'rxjs';
 
@@ -14,8 +16,10 @@ import { Observable } from 'rxjs';
 export class CourseListComponent implements OnInit {
   public courseItems: Course[] = [];
   courses$ = new Observable<Course[]>();
+  course$: Observable<Object>;
   isAuthenticated = false;
   constructor(
+    private store: Store<{courses: Object}>,
     private courseService: CourseService, 
     private router: Router, 
     private httpClient: HttpClient,
@@ -26,6 +30,9 @@ export class CourseListComponent implements OnInit {
       this.router.navigate(['login']);
     }
     this.courses$ = this.courseService.getFirstsCourses();
+    this.store.dispatch(loadCourses());
+    this.course$ = store.pipe(select('courses'));
+    this.course$.subscribe(console.log);
     this.courses$.subscribe((courses) => this.courseItems = courses);
    }
 
@@ -43,8 +50,10 @@ export class CourseListComponent implements OnInit {
 
   showDeleteMessage(event) {
     console.log(event);
+    const courseId = event;
     if (window.confirm('Are sure you want to delete this item ?')){
       this.courseService.removeItem(event);
+      this.store.dispatch(removeCourse({courseId}));
     }
   }
 

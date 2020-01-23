@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Course } from '../../shared/models/course-model';
+import { CourseService } from '../../shared/services/course.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, fromEvent, BehaviorSubject } from 'rxjs';
@@ -16,14 +17,13 @@ export class SearchComponent implements OnInit {
   public search ="";
 
   constructor(private readonly router: Router,
-    private httpClient: HttpClient) {
+    private courseService: CourseService,) {
       this.mySearch$.pipe(
       filter(text => !text || text.length > 3),
       debounceTime(1000),
       distinctUntilChanged(),
       switchMap((search) => { 
-        return this.httpClient.get<Course[]>('http://localhost:3004/courses/',
-        {params: {textFragment: search}});
+        return this.courseService.searchCourse(search);
       })).subscribe(this.filteredCourses);
     }
 

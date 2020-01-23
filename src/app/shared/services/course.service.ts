@@ -78,13 +78,18 @@ export class CourseService {
       isTopRated: newCourse.isTopRated
     }
     // this.courses.push(newCourse);
-    this.httpClient.post<Course>('http://localhost:3004/courses',courseRequest)
-    .subscribe((course) => {console.log("Course created" + course.id)},
-    (err) => {console.log(err)});
+    return this.httpClient.post<Course>('http://localhost:3004/courses',courseRequest)
+    // .subscribe((course) => {console.log("Course created" + course.id)},
+    // (err) => {console.log(err)});
   }
 
   getItemById(id: number) {
     return this.courses.find(item => item.id === id);
+  }
+
+  searchCourse(search: string) {
+    return this.httpClient.get<Course[]>('http://localhost:3004/courses/',
+        {params: {textFragment: search}});
   }
 
   updateCourse(newCourse: Course) {
@@ -101,9 +106,9 @@ export class CourseService {
     }
     // this.courses.push(newCourse);
     const baseUrl = 'http://localhost:3004/courses';
-    this.httpClient.patch<Course>(`${baseUrl}/${newCourse.id}`,courseRequest)
-    .subscribe((course) => {console.log("Course updated" + newCourse.id)},
-    (err) => {console.log(err)});
+    return this.httpClient.patch<Course>(`${baseUrl}/${newCourse.id}`,courseRequest);
+    // .subscribe((course) => {console.log("Course updated" + newCourse.id)},
+    // (err) => {console.log(err)});
   }
 
   removeItem(courseId: number) {
@@ -111,9 +116,9 @@ export class CourseService {
     // this.courses.splice(itemIndex, 1);
     // console.log("DELETE::"+courseId);
     const baseUrl = 'http://localhost:3004/courses';
-    this.httpClient.delete<void>(`${baseUrl}/${courseId}`)
-    .subscribe(() => { console.log('Course deleted: '+courseId)},
-    (error) => {console.log(error)});
+    return this.httpClient.delete<void>(`${baseUrl}/${courseId}`);
+    // .subscribe(() => { console.log('Course deleted: '+courseId)},
+    // (error) => {console.log(error)});
     // this.courses = this.getCourses();
   }
 }

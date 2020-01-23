@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "courses"
+  "defaultProject": "courses",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
