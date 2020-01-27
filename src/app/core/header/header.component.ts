@@ -12,32 +12,33 @@ import { logout, getStatus } from '../../state/actions/login.actions';
 })
 export class HeaderComponent implements OnInit, OnChanges {
   isAutenticated: boolean = false;
-  userInfo: string = '';
+  // userInfo: string = '';
   userInfo$ = this.authorizationService.getUserInfo();
-  login$: Observable<string>;
+  // login$: Observable<string>;
   
   constructor(
     private store: Store<{login: string}>,
     private authorizationService: AuthorizacionService,
     private router: Router) { 
-      this.login$ = store.pipe(select('login'));
+      // this.login$ = store.pipe(select('login'));
+      // this.login$.subscribe((user) => { console.log(user)});
     }
 
   ngOnInit() {
     this.isAutenticated = this.authorizationService.isAuthenticated();
-    this.authorizationService.isLogged$.subscribe((isAutenticated) => this.isAutenticated = isAutenticated);
+    // this.authorizationService.isLogged$.subscribe((isAutenticated) => this.isAutenticated = isAutenticated);
     // this.authorizationService.getUserInfo().subscribe((user) => {this.userInfo = user});
-    console.log(this.userInfo);
-    this.store.dispatch(getStatus());
+    // console.log(this.userInfo);
+    // this.store.dispatch(getStatus());
   }
 
   ngOnChanges() {
     this.authorizationService.isLogged$.subscribe((isAutenticated) => this.isAutenticated = isAutenticated);
-    this.store.dispatch(getStatus());
+    // this.store.dispatch(getStatus());
   }
 
   Logout() {
-    this.authorizationService.logOut();
+    // this.authorizationService.logOut();
     this.store.dispatch(logout());
     this.router.navigate(['login']);
     // window.location.reload();

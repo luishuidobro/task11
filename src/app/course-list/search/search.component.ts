@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Course } from '../../shared/models/course-model';
 import { CourseService } from '../../shared/services/course.service';
 import { Router } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import { searchCourse } from '../../state/actions/courses.actions';
 import { HttpClient } from '@angular/common/http';
 import { Observable, fromEvent, BehaviorSubject } from 'rxjs';
 import { map, filter, distinctUntilChanged, debounceTime, switchMap, delay } from 'rxjs/operators';
@@ -16,14 +18,17 @@ export class SearchComponent implements OnInit {
   @Output() filteredCourses = new EventEmitter();
   public search ="";
 
-  constructor(private readonly router: Router,
+  constructor(private store: Store<{courses: Object}>,
+    private readonly router: Router,
     private courseService: CourseService,) {
       this.mySearch$.pipe(
       filter(text => !text || text.length > 3),
       debounceTime(1000),
       distinctUntilChanged(),
       switchMap((search) => { 
-        return this.courseService.searchCourse(search);
+        this.store.dispatch(searchCourse({search}));
+        // return this.courseService.searchCourse(search);
+        return this.store.select('courses');
       })).subscribe(this.filteredCourses);
     }
 

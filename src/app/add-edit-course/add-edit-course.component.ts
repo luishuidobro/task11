@@ -64,10 +64,10 @@ export class AddEditCourseComponent implements OnInit {
     } as Course;
     if(this.isEdition) {
       // newCourse.id = this.currentId;
-      this.courseService.updateCourse(course);
+      // this.courseService.updateCourse(course);
       this.store.dispatch(updateCourse({course}));
     } else {
-      this.courseService.createCourse(course);
+      // this.courseService.createCourse(course);
       this.store.dispatch(createCourse({course}));
     }
     this.clearFields();

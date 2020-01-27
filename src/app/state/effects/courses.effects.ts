@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { map, mergeMap, catchError, exhaustMap } from 'rxjs/operators';
 import { CourseService } from '../../shared/services/course.service';
-import {  createCourse, loadCoursesSuccess, loadCourses, loadCoursesFailure, removeCourse, updateCourse } from '../actions/courses.actions';
+import {  createCourse, loadCoursesSuccess, loadCourses, loadCoursesFailure, removeCourse, searchCourse, updateCourse } from '../actions/courses.actions';
 
 @Injectable()
 export class CourseEffects {
@@ -55,6 +55,20 @@ export class CourseEffects {
             this.courseService.updateCourse(action.course).pipe(
               map(() => { 
                 return loadCourses(); 
+              }),
+              catchError(error => of(loadCoursesFailure({ error})))  
+            )
+          )
+        )
+  );
+
+  searchCourse$ = createEffect(() =>
+        this.actions$.pipe(
+          ofType(searchCourse),
+          mergeMap(action =>
+            this.courseService.searchCourse(action.search).pipe(
+              map((courses) => { 
+                return loadCoursesSuccess({courses});
               }),
               catchError(error => of(loadCoursesFailure({ error})))  
             )

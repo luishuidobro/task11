@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
 export class CourseListComponent implements OnInit {
   public courseItems: Course[] = [];
   courses$ = new Observable<Course[]>();
-  course$: Observable<Object>;
+  // course$: Observable<Object>;
   isAuthenticated = false;
   constructor(
     private store: Store<{courses: Object}>,
@@ -29,11 +29,19 @@ export class CourseListComponent implements OnInit {
     if (!this.isAuthenticated) {
       this.router.navigate(['login']);
     }
-    this.courses$ = this.courseService.getFirstsCourses();
+    
     this.store.dispatch(loadCourses());
-    this.course$ = store.pipe(select('courses'));
-    this.course$.subscribe(console.log);
-    this.courses$.subscribe((courses) => this.courseItems = courses);
+    this.courses$ = this.courseService.getFirstsCourses();
+    // this.courses$ = store.pipe(select('courses'));
+
+    // this.course$ = store.pipe(select('courses'));
+    // this.course$.subscribe((courses) => {
+    //     console.log(courses);
+    // });
+    this.courses$.subscribe(
+      (courses) =>
+    this.courseItems = courses
+      );
    }
 
   ngOnInit() {
@@ -52,7 +60,7 @@ export class CourseListComponent implements OnInit {
     console.log(event);
     const courseId = event;
     if (window.confirm('Are sure you want to delete this item ?')){
-      this.courseService.removeItem(event);
+      // this.courseService.removeItem(event);
       this.store.dispatch(removeCourse({courseId}));
     }
   }

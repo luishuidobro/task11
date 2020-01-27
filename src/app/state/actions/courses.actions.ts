@@ -7,3 +7,4 @@ export const removeCourse = createAction('[Course Component] RemoveCourse', prop
 export const loadCourses = createAction('[Course Component] LoadCourses');
 export const loadCoursesSuccess = createAction('[Course Component] LoadCoursesSuccess', props<{ courses: Course[] }>());
 export const loadCoursesFailure = createAction('[Course Component] LoadCoursesFailure', props<{ error: string }>());
+export const searchCourse = createAction('[Course Component] SearchCourse', props<{search: string}>());

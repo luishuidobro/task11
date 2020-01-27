@@ -87,7 +87,7 @@ export class CourseService {
     return this.courses.find(item => item.id === id);
   }
 
-  searchCourse(search: string) {
+  searchCourse(search: string) : Observable <Course[]> {
     return this.httpClient.get<Course[]>('http://localhost:3004/courses/',
         {params: {textFragment: search}});
   }

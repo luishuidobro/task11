@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       email: this.email,
       password: this.password
     } as User;
-    this.authorizationService.login(user);
+    // this.authorizationService.login(user);
     this.store.dispatch(login({user}));
   }
 }

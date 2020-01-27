@@ -51,7 +51,7 @@ export class AuthorizacionService {
   }
 
   isAuthenticated(): boolean {
-    return localStorage.getItem("user") !== null;
+    return localStorage.getItem("userName") !== null;
   }
 
   getUserInfo(): any {
