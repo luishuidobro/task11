@@ -14,7 +14,7 @@ import { map, filter, distinctUntilChanged, debounceTime, switchMap, delay } fro
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  mySearch$ = new BehaviorSubject('');
+  mySearch$ = new BehaviorSubject('..');
   @Output() filteredCourses = new EventEmitter();
   public search ="";
 
@@ -25,10 +25,10 @@ export class SearchComponent implements OnInit {
       filter(text => !text || text.length > 3),
       debounceTime(1000),
       distinctUntilChanged(),
-      switchMap((search) => { 
+      switchMap((search) => {
         this.store.dispatch(searchCourse({search}));
         // return this.courseService.searchCourse(search);
-        return this.store.select('courses');
+        return store.pipe(select('courses'), map((courses: any) => courses!.courses));
       })).subscribe(this.filteredCourses);
     }
 

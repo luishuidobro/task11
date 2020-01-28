@@ -9,7 +9,7 @@ const _coursesReducer = createReducer(initialState,
   on(removeCourse, state => state),
   on(searchCourse, state => state),
   on(loadCourses, state => initialState),
-  on(loadCoursesSuccess, (state, courses) => { return {...state, courses};
+  on(loadCoursesSuccess, (state, {courses}) => { return {...state, courses};
   }),
 );
 

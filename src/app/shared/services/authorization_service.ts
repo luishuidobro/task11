@@ -8,7 +8,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthorizacionService {
-  isLogged$ = new BehaviorSubject<boolean>(localStorage.getItem("user") !== null);
+  isLogged$ = new BehaviorSubject<boolean>(localStorage.getItem("userName") !== null);
   constructor(private router: Router,
     private httpClient: HttpClient) { }
 
@@ -36,6 +36,8 @@ export class AuthorizacionService {
 
   logOut() {
     localStorage.removeItem("user");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("usuario");
     this.isLogged$.next(false);
   }
 
@@ -54,10 +56,10 @@ export class AuthorizacionService {
     return localStorage.getItem("userName") !== null;
   }
 
-  getUserInfo(): any {
-    const userInfoObservable = new Observable(observer => {
+  getUserInfo(): Observable<string> {
+    const userInfoObservable = new Observable<string>(observer => {
       // setTimeout(() => {
-        observer.next(JSON.parse(localStorage.getItem("userName")));
+        observer.next(JSON.parse(localStorage.getItem("usuario")));
       // }, 500);
     });
     return userInfoObservable;

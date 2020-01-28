@@ -4,6 +4,7 @@ import { User } from '../../shared/models/user-model';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { login } from '../../state/actions/login.actions';
+import { map } from 'rxjs/operators';
 
 
 @Component({

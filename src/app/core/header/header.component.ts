@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { logout, getStatus } from '../../state/actions/login.actions';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -14,13 +15,15 @@ export class HeaderComponent implements OnInit, OnChanges {
   isAutenticated: boolean = false;
   // userInfo: string = '';
   userInfo$ = this.authorizationService.getUserInfo();
-  // login$: Observable<string>;
+  // userInfo$.pipe(map(user) => user.email)
+  login$: Observable<{}>;
   
   constructor(
-    private store: Store<{login: string}>,
+    private store: Store<{login: Object}>,
     private authorizationService: AuthorizacionService,
     private router: Router) { 
-      // this.login$ = store.pipe(select('login'));
+      this.login$ = store.pipe(select('login'), map((user: any) => user.user));
+      this.login$.subscribe((login) => console.log(login));
       // this.login$.subscribe((user) => { console.log(user)});
     }
 
@@ -38,8 +41,9 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
 
   Logout() {
-    // this.authorizationService.logOut();
-    this.store.dispatch(logout());
+    this.authorizationService.logOut();
+    this.authorizationService.isLogged$.subscribe((isAutenticated) => this.isAutenticated = isAutenticated);
+    // this.store.dispatch(logout());
     this.router.navigate(['login']);
     // window.location.reload();
   }

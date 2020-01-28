@@ -5,7 +5,7 @@ import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { User } from '../../shared/models/user-model';
 import { AuthorizacionService } from "../../shared/services/authorization_service"
-import { login, loginSuccess, loginFailure, getUserInfo } from '../actions/login.actions';
+import { login, loginSuccess, loginFailure, getUserInfo, logout } from '../actions/login.actions';
 
 @Injectable()
 export class LoginEffects {
@@ -17,6 +17,7 @@ export class LoginEffects {
           map((token) => {
             localStorage.setItem("user", JSON.stringify(token));
             localStorage.setItem("userName", JSON.stringify(action.user));
+            localStorage.setItem("usuario", JSON.stringify(action.user.email));
             this.authorizacionService.isLogged$.next(true);
             return loginSuccess({ token });  
           }),
