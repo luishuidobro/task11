@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 export class AddEditCourseComponent implements OnInit {
 
   form = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+    name: new FormControl('', [Validators.required, Validators.maxLength(5)]),
     description: new FormControl('', [Validators.required, Validators.maxLength(500)]),
     length: new FormControl(0, [Validators.required, Validators.pattern('^[0-9]*$')]),
     date: new FormControl('', Validators.required),

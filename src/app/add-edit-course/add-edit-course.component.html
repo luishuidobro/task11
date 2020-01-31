@@ -5,7 +5,8 @@
         <span class="required margin-title">*required</span>
         <input type="text" id="title" formControlName="name" 
             placeholder="Text input" class="Title-input">
-                <div *ngIf="form.get('name').invalid===true" class="error">
+                <div *ngIf="name.errors?.required && name.dirty"
+                class="error">
                     <div>Title is required.</div>
                 </div>
                 <div *ngIf="name.errors?.maxlength" class="error">
@@ -15,7 +16,7 @@
         <span class="required margin-description">*required</span>
         <input type="text" id="description" formControlName="description" 
             placeholder="Add description" class="Description-input">
-                <div *ngIf="form.get('description').invalid===true" class="error">
+                <div *ngIf="description.dirty && description.errors?.required" class="error">
                     <div>Description is required.</div>
                 </div>
                 <div *ngIf="description.errors?.maxlength" class="error">
@@ -24,10 +25,10 @@
         <span class="Tag-it-component">Duration:</span>
         <span class="required margin-duration">*required</span>
         <br>
-        <input type="text" id="duration" formControlName="length" 
+        <input type="number" id="duration" formControlName="length" 
             placeholder="minutes" class="Duration-input">
         <br>
-                <div *ngIf="form.get('length').invalid===true" class="error">
+                <div *ngIf="length.dirty && (length.errors?.required || length.errors?.forbiddenName)" class="error">
                     <div>Duration is required. Only numbers allowed.</div>
                 </div>
         <span class="Tag-it-component">Date:</span>
@@ -36,7 +37,7 @@
         <input type="date" id="date" formControlName="date" 
             placeholder="mm-dd-yyyy" class="Date-input">
         <br>
-                <div *ngIf="form.get('date').invalid===true" class="error">
+                <div *ngIf="date.dirty && date.errors?.required" class="error">
                     <div>Date is required.</div>
                 </div>
         <span class="Tag-it-component">Authors:</span>
@@ -44,7 +45,7 @@
         <br>
         <input type="text" id="authors" formControlName="authors" 
             placeholder="Start typing" class="Authors-input">
-                <div *ngIf="form.get('authors').invalid===true" class="error">
+                <div *ngIf="authors.dirty && authors.errors?.required" class="error">
                     <div>Authors is required. Only alfanumeric characters allowed.</div>
                 </div>
     </form>
