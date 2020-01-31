@@ -84,6 +84,7 @@ export class CourseService {
   }
 
   getItemById(id: number) {
+    this.getCourses().subscribe((courses) => {this.courses = courses});
     return this.courses.find(item => item.id === id);
   }
 

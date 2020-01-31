@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +37,7 @@ import { coursesReducer } from './state/reducers/courses.reducer';
     LoginModule,
     BrowserAnimationsModule,
     AddEditCourseModule,
+    ReactiveFormsModule,
     SharedModule,
     StoreModule.forRoot(
       // reducers,
