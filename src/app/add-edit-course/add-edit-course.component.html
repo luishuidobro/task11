@@ -34,12 +34,11 @@
         <span class="Tag-it-component">Date:</span>
         <span class="required margin-date">*required</span>
         <br>
-        <input type="date" id="date" formControlName="date" 
-            placeholder="mm-dd-yyyy" class="Date-input">
-        <br>
-                <div *ngIf="date.dirty && date.errors?.required" class="error">
-                    <div>Date is required.</div>
-                </div>
+        <app-date formControlName="date"></app-date>
+        <br>
+        <div *ngIf="date.dirty && date.errors?.required" class="error">
+            <div>Date is required.</div>
+        </div>
         <span class="Tag-it-component">Authors:</span>
         <span class="required margin-authors">*required</span>
         <br>

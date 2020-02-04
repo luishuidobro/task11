@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddEditCourseComponent } from './add-edit-course.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DateComponent } from './date/date.component';
 
 
 
 @NgModule({
-  declarations: [AddEditCourseComponent],
+  declarations: [AddEditCourseComponent, DateComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -16,6 +17,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   ],
   exports: [
     AddEditCourseComponent,
+    DateComponent,
   ]
 })
 export class AddEditCourseModule { }

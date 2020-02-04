@@ -1,0 +1,2 @@
+<!-- <input type="date" id="date" formControlName="date" placeholder="mm-dd-yyyy" class="Date-input"> -->
+<input type="date" (input)="onChange($event.target.value)" [disabled]="disabled" [value]="value" placeholder="mm-dd-yyyy" class="Date-input">
